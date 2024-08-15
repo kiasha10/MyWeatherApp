@@ -14,6 +14,15 @@ class APIHandler {
             completion(.failure(.internalError))
             return
         }
+        func weatherStats(completion: @escaping (Result<WeatherData, Error>) -> Void) {
+            let url = URL(string: "https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&appid=ca10f5419e656a65370b3e4f81a2ccc0")!
+            let dataTask = URLSession.shared.dataTask(with: url) { date, response, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+            }
+        }
         
         var request = URLRequest(url: url)
         request.httpMethod = method
