@@ -11,6 +11,8 @@ class WeatherHomeScreenViewController: UIViewController {
     
     // MARK: IBOutlets
     
+    @IBOutlet weak var saveCity: UIButton!
+    @IBOutlet private weak var themeSlider: UISlider!
     @IBOutlet private weak var favouritesButton: UIButton!
     @IBOutlet private weak var cityLocation: UILabel!
     @IBOutlet private weak var backgroundImage: UIImageView!
@@ -53,6 +55,7 @@ class WeatherHomeScreenViewController: UIViewController {
     }
     
     // MARK: Setters
+    
     func setCityLocation(_ text: String) {
         cityLocation.text = text
     }
@@ -98,7 +101,7 @@ class WeatherHomeScreenViewController: UIViewController {
         tableView.dataSource = self
     }
     
-   
+    
 }
 
 extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewDataSource {
@@ -117,14 +120,33 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 60
     }
 }
 
 extension WeatherHomeScreenViewController: ViewModelDelegate {
     func reloadView() {
+        setCityLocation(viewModel.cityName)
+        
+        
+        if let currentWeather = viewModel.currentWeather {
+            let tempCelsius = fahrenheitToCelsius(currentWeather.main.temp) / 10
+            setMainTemp(String(format: "%.1f°C", tempCelsius))
+            
+            if let weatherCondition = currentWeather.weather.first?.description {
+                setWeatherCondition(weatherCondition.capitalized)
+            }
+            
+            let minTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_min) / 10
+            let maxTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_max) / 10 
+            
+            setMinTemp(String(format: "%.1f°C", minTempCelsius))
+            setMaxTemp(String(format: "%.1f°C", maxTempCelsius))
+        }
+        
         tableView.reloadData()
     }
+    
     func show(error: String) {
         print("An error occured")
     }

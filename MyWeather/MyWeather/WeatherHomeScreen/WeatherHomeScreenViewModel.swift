@@ -15,6 +15,8 @@ protocol ViewModelDelegate: AnyObject {
 class WeatherHomeScreenViewModel {
     
     var forecast: [WeatherData] = []
+    var cityName: String = ""
+    var currentWeather: WeatherData?
     
     private let repository: WeatherHomeScreenRepositoryType
     private weak var delegate: ViewModelDelegate?
@@ -40,6 +42,8 @@ class WeatherHomeScreenViewModel {
             case .success(let weatherStats):
                 print("\(weatherStats)")
                 self?.forecast = weatherStats.list
+                self?.cityName = weatherStats.city.name
+                self?.currentWeather = weatherStats.list.first
                 self?.delegate?.reloadView()
             case .failure(let error):
                 print("Oops! Parsing Error")
@@ -77,11 +81,9 @@ class WeatherHomeScreenViewModel {
             }
             return false
         }
-        
         self.forecast = filteredForecast
         self.delegate?.reloadView()
     }
-    
 }
 
 
