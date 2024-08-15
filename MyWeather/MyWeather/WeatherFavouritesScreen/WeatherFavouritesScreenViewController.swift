@@ -8,22 +8,37 @@
 import UIKit
 
 class WeatherFavouritesScreenViewController: UIViewController {
-
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    private let viewModel = WeatherFavouritesScreenViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupTableView()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupTableView() {
+        view.addSubview(tableView)
+        tableView.frame = view.bounds
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(WeatherFavouritesScreenTableViewCell.self, forCellReuseIdentifier: SegueIdentifiers.favouritesScreenIdentifier)
     }
-    */
+}
 
+extension WeatherFavouritesScreenViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.getFavoriteCities().count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SegueIdentifiers.favouritesScreenIdentifier, for: indexPath) as? WeatherFavouritesScreenTableViewCell else {
+            return UITableViewCell()
+        }
+        let city = viewModel.getFavoriteCities()[indexPath.row]
+        cell.configure(with: city)
+        return cell
+    }
 }

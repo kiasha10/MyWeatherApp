@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1yL-3u-NvD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="forest_sunny.png" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J6j-vA-cVn">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="forest_sunny" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J6j-vA-cVn">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="377"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
@@ -119,6 +119,9 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="star.circle" catalog="system"/>
+                                <connections>
+                                    <segue destination="HjM-FV-ojs" kind="show" identifier="displayFavouritesScreen" id="LzJ-nC-e2O"/>
+                                </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="lWX-xd-IPy">
                                 <rect key="frame" x="21" y="57" width="64" height="30"/>
@@ -159,29 +162,39 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="747.32824427480909" y="-245.07042253521129"/>
+            <point key="canvasLocation" x="1518.3206106870227" y="-337.32394366197184"/>
+        </scene>
+        <!--WeatherFavouritesScreen-->
+        <scene sceneID="1nL-Rb-trw">
+            <objects>
+                <viewControllerPlaceholder storyboardName="WeatherFavouritesScreen" id="HjM-FV-ojs" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Zaf-bn-CAX"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OGB-Y6-ULr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2354.1984732824426" y="-421.12676056338029"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="xPl-cd-74i">
+        <scene sceneID="TTr-SO-FFS">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1yL-3u-NvD" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jbe-Ik-W2x" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rvr-DQ-s9Y">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CeG-Yt-xWF">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="9rP-Z1-WXe"/>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="2ws-Wy-qsR"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Bdq-2A-5yc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lX1-6x-KdK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-150" y="-245"/>
+            <point key="canvasLocation" x="591.60305343511448" y="-337.32394366197184"/>
         </scene>
     </scenes>
     <resources>
-        <image name="forest_sunny.png" width="120" height="107"/>
+        <image name="forest_sunny" width="120" height="107"/>
         <image name="square.and.arrow.down" catalog="system" width="112" height="128"/>
         <image name="star.circle" catalog="system" width="128" height="123"/>
         <namedColor name="Cloudy">
