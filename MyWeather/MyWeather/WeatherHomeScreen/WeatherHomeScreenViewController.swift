@@ -89,10 +89,10 @@ class WeatherHomeScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        viewModel.weatherStats()
         setUpTableView()
+        viewModel.weatherStats()
+//        tableView.dataSource = self
+//        tableView.delegate = self
     }
     
     private func setUpTableView() {
@@ -101,11 +101,35 @@ class WeatherHomeScreenViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "displayFavouritesScreen" {
+            if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
+            }
+        }
+    }
 }
 
 extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewDataSource {
     
+    func goToFavoritesButtonTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: SegueIdentifiers.favouritesScreenIdentifier, sender: self)
+    }
+    
+    func addToFavoritesButtonTapped(_ sender: UIButton) {
+        let cityName = "Zocca"
+        let viewModel = WeatherFavouritesScreenViewModel()
+        
+        if viewModel.isCityFavorite(cityName) {
+            let alert = UIAlertController(title: "Already Added", message: "\(cityName) is already in your favorites.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+            viewModel.addFavoriteCity(cityName)
+            let alert = UIAlertController(title: "Success", message: "\(cityName) has been added to your favorites.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfDays
     }
@@ -138,7 +162,7 @@ extension WeatherHomeScreenViewController: ViewModelDelegate {
             }
             
             let minTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_min) / 10
-            let maxTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_max) / 10 
+            let maxTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_max) / 10
             
             setMinTemp(String(format: "%.1f°C", minTempCelsius))
             setMaxTemp(String(format: "%.1f°C", maxTempCelsius))

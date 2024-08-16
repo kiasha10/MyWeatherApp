@@ -19,6 +19,11 @@ struct TableViewIdentifiers {
     static let WeatherHomeScreenTableViewCell = "WeatherHomeScreenTableViewCell"
 }
 
+struct SegueIdentifiers {
+    
+    static let favouritesScreenIdentifier = "displayFavouritesScreen"
+}
+
 struct WeatherResponses {
     
     static func weatherCondition(for condition: Int) -> String {

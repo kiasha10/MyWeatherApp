@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Weather Favourites Screen View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="WeatherFavouritesScreenViewController" customModule="MyWeather" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favourites" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UDd-Zs-mhV">
+                                <rect key="frame" x="16" y="71" width="361" height="36"/>
+                                <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="36"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bZD-dw-bsi">
+                                <rect key="frame" x="16" y="115" width="361" height="703"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="RWu-De-e5C" customClass="WeatherFavouritesScreenTableViewCell" customModule="MyWeather" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="361" height="44.333332061767578"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RWu-De-e5C" id="xfG-wd-r07">
+                                            <rect key="frame" x="0.0" y="0.0" width="361" height="44.333332061767578"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2FM-be-nfB" userLabel="cityLabel">
+                                                    <rect key="frame" x="150" y="9.0000000000000018" width="44" height="23.666666666666671"/>
+                                                    <fontDescription key="fontDescription" name="Thonburi" family="Thonburi" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2FM-be-nfB" firstAttribute="leading" secondItem="xfG-wd-r07" secondAttribute="leading" constant="150" id="Nvk-jG-rsp"/>
+                                                <constraint firstAttribute="trailing" secondItem="2FM-be-nfB" secondAttribute="trailing" constant="167" id="eDy-8u-fyy"/>
+                                                <constraint firstAttribute="bottom" secondItem="2FM-be-nfB" secondAttribute="bottom" constant="11.67" id="evY-hl-Dbs"/>
+                                                <constraint firstItem="2FM-be-nfB" firstAttribute="top" secondItem="xfG-wd-r07" secondAttribute="top" constant="9" id="glQ-x2-oaj"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="5EZ-qb-Rvc" id="rnG-WE-eV6"/>
+                                    <outlet property="delegate" destination="5EZ-qb-Rvc" id="8bg-ww-qhR"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" name="Sunny"/>
+                        <constraints>
+                            <constraint firstItem="bZD-dw-bsi" firstAttribute="top" secondItem="UDd-Zs-mhV" secondAttribute="bottom" constant="8" id="0H8-0X-jd6"/>
+                            <constraint firstItem="UDd-Zs-mhV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="7HS-nG-Wt4"/>
+                            <constraint firstItem="bZD-dw-bsi" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="G54-dO-sJq"/>
+                            <constraint firstItem="UDd-Zs-mhV" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="12" id="Kny-gw-3hW"/>
+                            <constraint firstItem="bZD-dw-bsi" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="Sig-xa-V7P"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="bZD-dw-bsi" secondAttribute="trailing" constant="16" id="Tj7-ys-StK"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="UDd-Zs-mhV" secondAttribute="trailing" constant="16" id="hcT-QU-LZt"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="UDd-Zs-mhV" secondAttribute="bottom" constant="711" id="trz-G7-d5v"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="bZD-dw-bsi" id="ulO-Sn-H9y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-250" y="-4"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="Sunny">
+            <color red="0.27843137254901962" green="0.6705882352941176" blue="0.18431372549019609" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
