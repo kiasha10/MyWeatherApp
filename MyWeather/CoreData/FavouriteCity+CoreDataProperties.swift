@@ -2,13 +2,11 @@
 //  FavouriteCity+CoreDataProperties.swift
 //  MyWeather
 //
-//  Created by Kiasha Rangasamy on 2024/08/15.
-//
+//  Created by Kiasha Rangasamy on 2024/08/16.
 //
 
 import Foundation
 import CoreData
-
 
 extension FavouriteCity {
 
@@ -16,7 +14,7 @@ extension FavouriteCity {
         return NSFetchRequest<FavouriteCity>(entityName: "FavouriteCity")
     }
 
-    @NSManaged public var name: String?
+    @NSManaged public var name: String
 
 }
 
