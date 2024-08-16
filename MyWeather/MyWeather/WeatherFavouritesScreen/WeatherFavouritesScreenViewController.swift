@@ -19,7 +19,7 @@ class WeatherFavouritesScreenViewController: UIViewController {
     }
     
     private func setupTableView() {
-        view.addSubview(tableView)
+//        view.addSubview(tableView)
         tableView.frame = view.bounds
         tableView.delegate = self
         tableView.dataSource = self

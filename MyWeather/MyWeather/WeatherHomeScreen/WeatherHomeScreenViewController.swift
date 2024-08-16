@@ -89,10 +89,10 @@ class WeatherHomeScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
-        viewModel.weatherStats()
         setUpTableView()
+        viewModel.weatherStats()
+//        tableView.dataSource = self
+//        tableView.delegate = self
     }
     
     private func setUpTableView() {
@@ -102,7 +102,7 @@ class WeatherHomeScreenViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showFavoritesSegue" {
+        if segue.identifier == "displayFavouritesScreen" {
             if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
             }
         }
@@ -112,7 +112,7 @@ class WeatherHomeScreenViewController: UIViewController {
 extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewDataSource {
     
     func goToFavoritesButtonTapped(_ sender: UIButton) {
-        performSegue(withIdentifier: "showFavoritesSegue", sender: self)
+        performSegue(withIdentifier: SegueIdentifiers.favouritesScreenIdentifier, sender: self)
     }
     
     func addToFavoritesButtonTapped(_ sender: UIButton) {

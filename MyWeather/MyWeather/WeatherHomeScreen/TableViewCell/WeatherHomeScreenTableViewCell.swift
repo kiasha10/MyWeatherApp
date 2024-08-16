@@ -21,9 +21,9 @@ class WeatherHomeScreenTableViewCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    //    func configure(city: City) {
-    //        weatherViewController?.setCityLocation("\(city.name)")
-    //    }
+    func configure(city: City) {
+        weatherViewController?.setCityLocation("\(city.name)")
+    }
     
     func configure(weather: WeatherData) {
         let dateFormatter = DateFormatter()
