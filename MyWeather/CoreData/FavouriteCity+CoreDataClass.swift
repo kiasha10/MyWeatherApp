@@ -10,5 +10,7 @@ import CoreData
 
 @objc(FavouriteCity)
 public class FavouriteCity: NSManagedObject {
-
+  
+    
+    
 }

@@ -34,7 +34,7 @@ class WeatherFavouritesScreenTableViewCell: UITableViewCell {
             fatalError("init(coder:) has not been implemented")
         }
         
-        func configure(with city: String) {
-            cityLabel.text = city
+    func configure(with city: String) {
+        cityLabel.text = city
         }
     }

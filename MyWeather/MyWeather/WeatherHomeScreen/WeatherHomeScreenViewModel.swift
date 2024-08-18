@@ -41,17 +41,17 @@ class WeatherHomeScreenViewModel {
             switch result {
             case .success(let weatherStats):
                 print("\(weatherStats)")
-                self?.forecast = weatherStats.list
                 self?.cityName = weatherStats.city.name
-                self?.currentWeather = weatherStats.list.first
-                self?.delegate?.reloadView()
+                print(weatherStats.city.name)
+                self?.processWeatherData(weatherStats.list)
+               
+//                self?.delegate?.reloadView()
             case .failure(let error):
                 print("Oops! Parsing Error")
                 self?.delegate?.show(error: error.rawValue)
             }
         }
     }
-    
     private func processWeatherData(_ data: [WeatherData]) {
         let calendar = Calendar.current
         var filteredForecast: [WeatherData] = []
@@ -61,7 +61,6 @@ class WeatherHomeScreenViewModel {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
         for weather in data {
-            
             if let date = dateFormatter.date(from: weather.dt_txt) {
                 let components = calendar.dateComponents([.year, .month, .day], from: date)
                 
@@ -81,9 +80,44 @@ class WeatherHomeScreenViewModel {
             }
             return false
         }
+        
+        calculateOverallTemperature(from: filteredForecast)
         self.forecast = filteredForecast
         self.delegate?.reloadView()
     }
+
+    private func calculateOverallTemperature(from forecast: [WeatherData]) {
+        guard !forecast.isEmpty else { return }
+        
+        var minTemp: Double = .greatestFiniteMagnitude
+        var maxTemp: Double = -.greatestFiniteMagnitude
+        var currentTempSum: Double = 0.0
+        var allWeatherDescriptions: [WeatherDescription] = []
+        
+        for weather in forecast {
+            let tempMin = weather.main.temp_min
+            let tempMax = weather.main.temp_max
+            let currentTemp = weather.main.temp
+            
+            minTemp = min(minTemp, tempMin)
+            maxTemp = max(maxTemp, tempMax)
+            currentTempSum += currentTemp
+            
+            allWeatherDescriptions.append(contentsOf: weather.weather)
+        }
+        
+        let overallCurrentTemp = currentTempSum / Double(forecast.count)
+        
+        let updatedMainWeather = MainWeather(temp: overallCurrentTemp, temp_min: minTemp, temp_max: maxTemp)
+        
+        self.currentWeather = WeatherData(
+            dt: 0, main: updatedMainWeather,
+            weather: allWeatherDescriptions,
+            dt_txt: self.currentWeather?.dt_txt ?? "Unknown date"
+        )
+    }
+
+
 }
 
 

@@ -66,3 +66,5 @@ struct WeatherResponses {
 func fahrenheitToCelsius(_ fahrenheit: Double) -> Double {
         return (fahrenheit - 32) * 5 / 9
     }
+
+

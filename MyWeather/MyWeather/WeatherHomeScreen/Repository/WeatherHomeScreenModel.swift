@@ -40,5 +40,5 @@ struct WeatherDescription: Codable {
     let description: String
     let icon: String
     let id: Int
-    var main: String
+    let main: String
 }

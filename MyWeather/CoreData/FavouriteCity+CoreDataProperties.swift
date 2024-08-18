@@ -14,7 +14,7 @@ extension FavouriteCity {
         return NSFetchRequest<FavouriteCity>(entityName: "FavouriteCity")
     }
 
-    @NSManaged public var name: String
+    @NSManaged public var name: String?
 
 }
 
