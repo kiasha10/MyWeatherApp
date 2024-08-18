@@ -3,4 +3,11 @@
     <entity name="FavouriteCity" representedClassName="FavouriteCity" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="WeatherForecast" representedClassName="WeatherForecast" syncable="YES" codeGenerationType="class">
+        <attribute name="cityLocation" optional="YES" attributeType="String"/>
+        <attribute name="currentTemp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="maxTemp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="minTemp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="weatherCondition" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
 </model>

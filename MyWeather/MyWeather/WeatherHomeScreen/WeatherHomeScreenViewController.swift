@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import CoreData
 
 class WeatherHomeScreenViewController: UIViewController {
+    
+    
+
     
     // MARK: IBOutlets
     
@@ -23,6 +27,49 @@ class WeatherHomeScreenViewController: UIViewController {
     @IBOutlet private weak var maxTemp: UILabel!
     @IBOutlet private weak var loadingSpinner: UIActivityIndicatorView!
     @IBOutlet private weak var tableView: UITableView!
+    var favouriteCityName: String = ""
+    private let favouritesModel = WeatherFavouritesScreenViewModel()
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+//        var currentCity: String = "New York"
+    
+    @IBAction func saveCityButtonTapped(_ sender: UIButton) {
+        saveCurrentCityToFavourites()
+    }
+    
+    private func saveCurrentCityToFavourites() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            print("Failed to retrieve AppDelegate")
+            return
+        }
+        
+        guard let cityName = getCityLocation() else {
+            showAlert(title: "Error", message: "City Name Not Found")
+            return
+        }
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let weatherForecast = WeatherForecast(context: context)
+        
+        weatherForecast.cityLocation = cityName
+        favouritesModel.addFavoriteCity(cityName)
+        print("Cities Saved to favorites: ")
+        print(favouritesModel.getFavoriteCities())
+        
+        
+        do {
+            try context.save()
+            showAlert(title: "Success", message: "City has been saved to Favourites")
+        } catch {
+            showAlert(title: "Error", message: "Failed to add City to Favourites")
+        }
+    }
+
     
     // MARK: Getters
     
@@ -52,6 +99,15 @@ class WeatherHomeScreenViewController: UIViewController {
     
     func getMaxTemp() -> String? {
         return maxTemp.text
+    }
+    
+    func getFavouriteCity() -> String? {
+        return favouriteCityName
+    }
+    
+    func setFavoriteCity(_ text: String) -> String? {
+        favouriteCityName=text
+        return favouriteCityName
     }
     
     // MARK: Setters
@@ -93,6 +149,7 @@ class WeatherHomeScreenViewController: UIViewController {
         viewModel.weatherStats()
 //        tableView.dataSource = self
 //        tableView.delegate = self
+        saveCity.addTarget(self, action: #selector(saveCityButtonTapped(_:)), for: .touchUpInside)
     }
     
     private func setUpTableView() {
@@ -103,11 +160,33 @@ class WeatherHomeScreenViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "displayFavouritesScreen" {
-            if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
+                if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
+                    // Pass the favorite city name or other relevant data
+                    destinationVC.favouriteCityName = self.getCityLocation() ?? ""
+                    print( destinationVC.favouriteCityName)
+                }
             }
-        }
     }
 }
+
+
+//override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//    if segue.identifier == "displayFavouritesScreen" {
+//        if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
+//            // Pass the favorite city name
+//            destinationVC.favouriteCityName = self.getCityLocation() ?? ""
+//            
+//            // Pass the current temperature
+//            if let currentTempText = currentTemp.text,
+//               let currentTempValue = Double(currentTempText.replacingOccurrences(of: "°C", with: "")) {
+//                destinationVC.currentTemperature = currentTempValue
+//            }
+//            
+//            // Pass the weather condition
+//            destinationVC.weatherCondition = self.getWeatherCondition() ?? ""
+//        }
+//    }
+//}
 
 extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewDataSource {
     
@@ -116,20 +195,21 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
     }
     
     func addToFavoritesButtonTapped(_ sender: UIButton) {
-        let cityName = "Zocca"
+        guard let cityName = getCityLocation() else {
+            showAlert(title: "Error", message: "City Name Not Found")
+            return
+        }
+
         let viewModel = WeatherFavouritesScreenViewModel()
         
         if viewModel.isCityFavorite(cityName) {
-            let alert = UIAlertController(title: "Already Added", message: "\(cityName) is already in your favorites.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
+            showAlert(title: "Already Added", message: "\(cityName) is already in your favourites.")
         } else {
             viewModel.addFavoriteCity(cityName)
-            let alert = UIAlertController(title: "Success", message: "\(cityName) has been added to your favorites.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
+            showAlert(title: "Success", message: "\(cityName) has been added to your favorites.")
         }
     }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfDays
     }
@@ -151,21 +231,25 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
 extension WeatherHomeScreenViewController: ViewModelDelegate {
     func reloadView() {
         setCityLocation(viewModel.cityName)
-        
+        print(viewModel.cityName)
         
         if let currentWeather = viewModel.currentWeather {
             let tempCelsius = fahrenheitToCelsius(currentWeather.main.temp) / 10
             setMainTemp(String(format: "%.1f°C", tempCelsius))
             
-            if let weatherCondition = currentWeather.weather.first?.description {
-                setWeatherCondition(weatherCondition.capitalized)
+            if let weatherId = currentWeather.weather.first?.id {
+                print(weatherId)
+                setWeatherCondition(WeatherResponses.weatherCondition(for: weatherId).capitalized)
+                print(WeatherResponses.weatherCondition(for: weatherId).capitalized)
             }
             
             let minTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_min) / 10
             let maxTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_max) / 10
-            
+            let currentTemp = fahrenheitToCelsius(currentWeather.main.temp) / 10
+          
             setMinTemp(String(format: "%.1f°C", minTempCelsius))
             setMaxTemp(String(format: "%.1f°C", maxTempCelsius))
+            setCurrentTemp(String(format: "%.1f°C", currentTemp))
         }
         
         tableView.reloadData()

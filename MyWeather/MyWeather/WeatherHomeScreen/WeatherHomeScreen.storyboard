@@ -154,7 +154,7 @@
                         <outlet property="mainTemp" destination="9Ug-xw-3vl" id="m6G-r0-MtL"/>
                         <outlet property="maxTemp" destination="UKi-SJ-9jD" id="x6U-fJ-rV5"/>
                         <outlet property="minTemp" destination="VDe-fb-jeE" id="2eH-WW-ql6"/>
-                        <outlet property="saveCity" destination="nLd-y3-pST" id="gjm-uy-9Hj"/>
+                        <outlet property="saveCity" destination="nLd-y3-pST" id="Hhi-ZY-Os7"/>
                         <outlet property="tableView" destination="1EF-AC-MsJ" id="Hhy-0T-ZQl"/>
                         <outlet property="themeSlider" destination="lWX-xd-IPy" id="lFj-Mm-wKH"/>
                         <outlet property="weatherCondition" destination="tuk-1p-w22" id="HEA-MB-WB9"/>
