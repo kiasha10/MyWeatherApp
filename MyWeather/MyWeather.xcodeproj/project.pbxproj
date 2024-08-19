@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4516ACA22C73310800D54433 /* WeatherHomeScreenUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4516ACA12C73310800D54433 /* WeatherHomeScreenUnitTest.swift */; };
 		459F986E2C6F724D00A576DA /* FavouriteCity+CoreDataProperties.swift in Resources */ = {isa = PBXBuildFile; fileRef = 459F986D2C6F724D00A576DA /* FavouriteCity+CoreDataProperties.swift */; };
 		459F98702C6F727D00A576DA /* FavouriteCity+CoreDataClass.swift in Resources */ = {isa = PBXBuildFile; fileRef = 459F986F2C6F727D00A576DA /* FavouriteCity+CoreDataClass.swift */; };
 		459F98742C6F85C000A576DA /* WeatherForecast+CoreDataClass.swift in Resources */ = {isa = PBXBuildFile; fileRef = 459F98722C6F85C000A576DA /* WeatherForecast+CoreDataClass.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4516ACA12C73310800D54433 /* WeatherHomeScreenUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherHomeScreenUnitTest.swift; sourceTree = "<group>"; };
 		459F986D2C6F724D00A576DA /* FavouriteCity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteCity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		459F986F2C6F727D00A576DA /* FavouriteCity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouriteCity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		459F98722C6F85C000A576DA /* WeatherForecast+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherForecast+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				45F0799C2C6B383C006A5E23 /* MyWeatherTests.swift */,
+				4516ACA12C73310800D54433 /* WeatherHomeScreenUnitTest.swift */,
 			);
 			path = MyWeatherTests;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				45F0799D2C6B383C006A5E23 /* MyWeatherTests.swift in Sources */,
+				4516ACA22C73310800D54433 /* WeatherHomeScreenUnitTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
