@@ -63,35 +63,35 @@ struct WeatherResponses {
     }
     
     static func themeForCondition(_ condition: String) -> (UIImage?) {
-            switch condition {
-            case "clear":
-                return (UIImage(named: "Sunny"))
-            case "rain":
-                return (UIImage(named: "Rain"))
-            case "cloudy":
-                return (UIImage(named: "Cloudy"))
-            default:
-                return (UIImage(named: "defaultSky"))
-            }
+        switch condition {
+        case "clear":
+            return (UIImage(named: "Sunny"))
+        case "rain":
+            return (UIImage(named: "Rain"))
+        case "cloudy":
+            return (UIImage(named: "Cloudy"))
+        default:
+            return (UIImage(named: "defaultSky"))
         }
+    }
     
     
     static func colorForCondition(_ condition: String) -> (UIColor) {
-            switch condition {
-            case "clear":
-                return ( UIColor.sunny)
-            case "rain":
-                return (UIColor.rainy)
-            case "cloudy":
-                return ( UIColor.cloudy)
-            default:
-                return ( UIColor.lightGray)
-            }
+        switch condition {
+        case "clear":
+            return ( UIColor.sunny)
+        case "rain":
+            return (UIColor.rainy)
+        case "cloudy":
+            return ( UIColor.cloudy)
+        default:
+            return ( UIColor.lightGray)
         }
-}
-    
-func fahrenheitToCelsius(_ fahrenheit: Double) -> Double {
-        return (fahrenheit - 32) * 5 / 9
     }
+}
+
+func fahrenheitToCelsius(_ fahrenheit: Double) -> Double {
+    return (fahrenheit - 32) * 5 / 9
+}
 
 

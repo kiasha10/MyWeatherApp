@@ -11,7 +11,8 @@ import CoreData
 class WeatherHomeScreenViewController: UIViewController {
     
     var favouriteCityName: String = ""
-    
+    private var weatherConditionInit: String = ""
+
     // MARK: IBOutlets
     
     @IBOutlet weak var saveCity: UIButton!
@@ -28,9 +29,7 @@ class WeatherHomeScreenViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
     private let favouritesModel = WeatherFavouritesScreenViewModel()
-    
-    private var weatherConditionInit: String = ""
-    
+
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -68,7 +67,7 @@ class WeatherHomeScreenViewController: UIViewController {
         }
     }
     
-    // MARK: Getters
+    // MARK: Getters(Accessors)
     
     func getCityLocation() -> String? {
         return cityLocation.text
@@ -107,7 +106,7 @@ class WeatherHomeScreenViewController: UIViewController {
         return favouriteCityName
     }
     
-    // MARK: Setters
+    // MARK: Setters(Mutators)
     
     func setCityLocation(_ text: String) {
         cityLocation.text = text
@@ -142,7 +141,7 @@ class WeatherHomeScreenViewController: UIViewController {
     func getweatherConditionInit() ->String {
         return weatherConditionInit
     }
-   
+    
     private lazy var viewModel = WeatherHomeScreenViewModel(repository: WeatherHomeScreenRepository(), delegate: self)
     
     override func viewDidLoad() {
@@ -151,8 +150,8 @@ class WeatherHomeScreenViewController: UIViewController {
         setUpTableView()
         viewModel.weatherStats()
         setupbackgroundImage()
-       
-//        updateTheme(for: getweatherConditionInit())
+        
+        //        updateTheme(for: getweatherConditionInit())
         themeSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         saveCity.addTarget(self, action: #selector(saveCityButtonTapped(_:)), for: .touchUpInside)
     }
@@ -171,20 +170,14 @@ class WeatherHomeScreenViewController: UIViewController {
     @objc private func sliderValueChanged(_ sender: UISlider) {
         let themeName = sender.value > 0.5 ? "sea_sunny" : "forest_sunny"
         backgroundImage.image = UIImage(named: themeName)
-
+        
         let backgroundColour = sender.value > 0.5 ? UIColor.seaTheme : UIColor.sunny
-       
         view.backgroundColor = backgroundColour
         tableView.backgroundColor = backgroundColour
-        
-        // Ensure the table view background is updated
-        
         tableView.layer.setNeedsDisplay()
-        
-        // Reload the table data if needed
         tableView.reloadData()
     }
-
+    
     private func setUpTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(WeatherHomeScreenTableViewCell.tableViewNib(), forCellReuseIdentifier: TableViewIdentifiers.WeatherHomeScreenTableViewCell)
@@ -193,26 +186,21 @@ class WeatherHomeScreenViewController: UIViewController {
     }
     
     private func updateTheme(for condition: String) {
-        
         backgroundImage.image = WeatherResponses.themeForCondition(condition)
-        
         view.backgroundColor = WeatherResponses.colorForCondition(condition)
         tableView.backgroundColor = WeatherResponses.colorForCondition(condition)
-        
         tableView.reloadData()
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "displayFavouritesScreen" {
-                if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
-                    destinationVC.favouriteCityName = self.getCityLocation() ?? ""
-                    print( destinationVC.favouriteCityName)
-                }
+            if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
+                destinationVC.favouriteCityName = self.getCityLocation() ?? ""
+                print( destinationVC.favouriteCityName)
             }
+        }
     }
 }
-
 
 extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewDataSource {
     
@@ -225,7 +213,7 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
             showAlert(title: "Error", message: "City Name Not Found")
             return
         }
-
+        
         let viewModel = WeatherFavouritesScreenViewModel()
         
         if viewModel.isCityFavourite(cityName) {
@@ -235,7 +223,7 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
             showAlert(title: "Success", message: "\(cityName) has been added to your favorites.")
         }
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfDays
     }
@@ -245,9 +233,7 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
             return UITableViewCell()
         }
         let weatherData = viewModel.fetchWeather(at: indexPath.row)
-    
-           
-          
+        
         cell.configure(weather: weatherData)
         cell.contentView.backgroundColor = tableView.backgroundColor
         cell.backgroundColor = tableView.backgroundColor
@@ -257,11 +243,6 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
-  
-        
-    
-    
-    
 }
 
 extension WeatherHomeScreenViewController: ViewModelDelegate {
@@ -277,15 +258,12 @@ extension WeatherHomeScreenViewController: ViewModelDelegate {
                 print(weatherId)
                 setWeatherCondition(WeatherResponses.weatherCondition(for: weatherId).capitalized)
                 setweatherConditionInit(WeatherResponses.weatherCondition(for: weatherId))
-                print(  getweatherConditionInit())
-                print(WeatherResponses.weatherCondition(for: weatherId).capitalized)
-                
             }
-            
+        
             let minTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_min) / 10
             let maxTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_max) / 10
             let currentTemp = fahrenheitToCelsius(currentWeather.main.temp) / 10
-          
+            
             setMinTemp(String(format: "%.1f°C", minTempCelsius))
             setMaxTemp(String(format: "%.1f°C", maxTempCelsius))
             setCurrentTemp(String(format: "%.1f°C", currentTemp))
