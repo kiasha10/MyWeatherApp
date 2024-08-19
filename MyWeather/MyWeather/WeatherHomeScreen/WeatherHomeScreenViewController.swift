@@ -10,8 +10,7 @@ import CoreData
 
 class WeatherHomeScreenViewController: UIViewController {
     
-    
-
+    var favouriteCityName: String = ""
     
     // MARK: IBOutlets
     
@@ -27,7 +26,7 @@ class WeatherHomeScreenViewController: UIViewController {
     @IBOutlet private weak var maxTemp: UILabel!
     @IBOutlet private weak var loadingSpinner: UIActivityIndicatorView!
     @IBOutlet private weak var tableView: UITableView!
-    var favouriteCityName: String = ""
+    
     private let favouritesModel = WeatherFavouritesScreenViewModel()
     
     func showAlert(title: String, message: String) {
@@ -35,8 +34,6 @@ class WeatherHomeScreenViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
-    
-//        var currentCity: String = "New York"
     
     @IBAction func saveCityButtonTapped(_ sender: UIButton) {
         saveCurrentCityToFavourites()
@@ -61,7 +58,6 @@ class WeatherHomeScreenViewController: UIViewController {
         print("Cities Saved to favorites: ")
         print(favouritesModel.getFavoriteCities())
         
-        
         do {
             try context.save()
             showAlert(title: "Success", message: "City has been saved to Favourites")
@@ -69,7 +65,6 @@ class WeatherHomeScreenViewController: UIViewController {
             showAlert(title: "Error", message: "Failed to add City to Favourites")
         }
     }
-
     
     // MARK: Getters
     
@@ -147,8 +142,6 @@ class WeatherHomeScreenViewController: UIViewController {
         super.viewDidLoad()
         setUpTableView()
         viewModel.weatherStats()
-//        tableView.dataSource = self
-//        tableView.delegate = self
         saveCity.addTarget(self, action: #selector(saveCityButtonTapped(_:)), for: .touchUpInside)
     }
     
@@ -161,7 +154,6 @@ class WeatherHomeScreenViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "displayFavouritesScreen" {
                 if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
-                    // Pass the favorite city name or other relevant data
                     destinationVC.favouriteCityName = self.getCityLocation() ?? ""
                     print( destinationVC.favouriteCityName)
                 }

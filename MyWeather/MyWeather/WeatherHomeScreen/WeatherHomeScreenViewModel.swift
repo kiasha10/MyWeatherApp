@@ -44,14 +44,13 @@ class WeatherHomeScreenViewModel {
                 self?.cityName = weatherStats.city.name
                 print(weatherStats.city.name)
                 self?.processWeatherData(weatherStats.list)
-               
-//                self?.delegate?.reloadView()
             case .failure(let error):
                 print("Oops! Parsing Error")
                 self?.delegate?.show(error: error.rawValue)
             }
         }
     }
+    
     private func processWeatherData(_ data: [WeatherData]) {
         let calendar = Calendar.current
         var filteredForecast: [WeatherData] = []
@@ -85,7 +84,7 @@ class WeatherHomeScreenViewModel {
         self.forecast = filteredForecast
         self.delegate?.reloadView()
     }
-
+    
     private func calculateOverallTemperature(from forecast: [WeatherData]) {
         guard !forecast.isEmpty else { return }
         
@@ -116,8 +115,4 @@ class WeatherHomeScreenViewModel {
             dt_txt: self.currentWeather?.dt_txt ?? "Unknown date"
         )
     }
-
-
 }
-
-
