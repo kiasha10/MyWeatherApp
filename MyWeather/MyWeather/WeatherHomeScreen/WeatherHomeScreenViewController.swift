@@ -29,6 +29,8 @@ class WeatherHomeScreenViewController: UIViewController {
     
     private let favouritesModel = WeatherFavouritesScreenViewModel()
     
+    private var weatherConditionInit: String = ""
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -134,21 +136,71 @@ class WeatherHomeScreenViewController: UIViewController {
     func setMaxTemp(_ text: String) {
         maxTemp.text = text
     }
-    
-    
+    func setweatherConditionInit(_ text: String) {
+        weatherConditionInit = text
+    }
+    func getweatherConditionInit() ->String {
+        return weatherConditionInit
+    }
+   
     private lazy var viewModel = WeatherHomeScreenViewModel(repository: WeatherHomeScreenRepository(), delegate: self)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupThemeSlider()
         setUpTableView()
         viewModel.weatherStats()
+        setupbackgroundImage()
+       
+//        updateTheme(for: getweatherConditionInit())
+        themeSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         saveCity.addTarget(self, action: #selector(saveCityButtonTapped(_:)), for: .touchUpInside)
     }
     
+    private func setupbackgroundImage() {
+        backgroundImage.image = UIImage(named: "forest_sunny")
+    }
+    
+    private func setupThemeSlider() {
+        themeSlider.minimumValue = 0
+        themeSlider.maximumValue = 1
+        themeSlider.value = 0
+        themeSlider.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    @objc private func sliderValueChanged(_ sender: UISlider) {
+        let themeName = sender.value > 0.5 ? "sea_sunny" : "forest_sunny"
+        backgroundImage.image = UIImage(named: themeName)
+
+        let backgroundColour = sender.value > 0.5 ? UIColor.seaTheme : UIColor.sunny
+       
+        view.backgroundColor = backgroundColour
+        tableView.backgroundColor = backgroundColour
+        
+        // Ensure the table view background is updated
+        
+        tableView.layer.setNeedsDisplay()
+        
+        // Reload the table data if needed
+        tableView.reloadData()
+    }
+
     private func setUpTableView() {
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(WeatherHomeScreenTableViewCell.tableViewNib(), forCellReuseIdentifier: TableViewIdentifiers.WeatherHomeScreenTableViewCell)
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    private func updateTheme(for condition: String) {
+        
+        backgroundImage.image = WeatherResponses.themeForCondition(condition)
+        
+        view.backgroundColor = WeatherResponses.colorForCondition(condition)
+        tableView.backgroundColor = WeatherResponses.colorForCondition(condition)
+        
+        tableView.reloadData()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -161,24 +213,6 @@ class WeatherHomeScreenViewController: UIViewController {
     }
 }
 
-
-//override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//    if segue.identifier == "displayFavouritesScreen" {
-//        if let destinationVC = segue.destination as? WeatherFavouritesScreenViewController {
-//            // Pass the favorite city name
-//            destinationVC.favouriteCityName = self.getCityLocation() ?? ""
-//            
-//            // Pass the current temperature
-//            if let currentTempText = currentTemp.text,
-//               let currentTempValue = Double(currentTempText.replacingOccurrences(of: "°C", with: "")) {
-//                destinationVC.currentTemperature = currentTempValue
-//            }
-//            
-//            // Pass the weather condition
-//            destinationVC.weatherCondition = self.getWeatherCondition() ?? ""
-//        }
-//    }
-//}
 
 extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewDataSource {
     
@@ -211,13 +245,23 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
             return UITableViewCell()
         }
         let weatherData = viewModel.fetchWeather(at: indexPath.row)
+    
+           
+          
         cell.configure(weather: weatherData)
+        cell.contentView.backgroundColor = tableView.backgroundColor
+        cell.backgroundColor = tableView.backgroundColor
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+  
+        
+    
+    
+    
 }
 
 extension WeatherHomeScreenViewController: ViewModelDelegate {
@@ -232,7 +276,10 @@ extension WeatherHomeScreenViewController: ViewModelDelegate {
             if let weatherId = currentWeather.weather.first?.id {
                 print(weatherId)
                 setWeatherCondition(WeatherResponses.weatherCondition(for: weatherId).capitalized)
+                setweatherConditionInit(WeatherResponses.weatherCondition(for: weatherId))
+                print(  getweatherConditionInit())
                 print(WeatherResponses.weatherCondition(for: weatherId).capitalized)
+                
             }
             
             let minTempCelsius = fahrenheitToCelsius(currentWeather.main.temp_min) / 10
