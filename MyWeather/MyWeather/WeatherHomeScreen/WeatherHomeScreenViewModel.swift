@@ -86,7 +86,7 @@ class WeatherHomeScreenViewModel {
     }
     
     private func calculateOverallTemperature(from forecast: [WeatherData]) {
-        guard !forecast.isEmpty else { return }
+        guard let firstForecast = forecast.first else { return }
         
         var minTemp: Double = .greatestFiniteMagnitude
         var maxTemp: Double = -.greatestFiniteMagnitude
