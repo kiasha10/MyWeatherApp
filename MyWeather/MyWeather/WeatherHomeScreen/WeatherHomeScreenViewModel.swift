@@ -40,9 +40,7 @@ class WeatherHomeScreenViewModel {
         repository.fetchWeatherForecast { [weak self] result in
             switch result {
             case .success(let weatherStats):
-                print("\(weatherStats)")
                 self?.cityName = weatherStats.city.name
-                print(weatherStats.city.name)
                 self?.processWeatherData(weatherStats.list)
             case .failure(let error):
                 print("Oops! Parsing Error")
@@ -86,7 +84,7 @@ class WeatherHomeScreenViewModel {
     }
     
     private func calculateOverallTemperature(from forecast: [WeatherData]) {
-        guard let firstForecast = forecast.first else { return }
+        guard forecast.first != nil else { return }
         
         var minTemp: Double = .greatestFiniteMagnitude
         var maxTemp: Double = -.greatestFiniteMagnitude
