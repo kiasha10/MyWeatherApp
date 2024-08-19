@@ -33,14 +33,14 @@ class WeatherFavouritesScreenViewController: UIViewController {
 extension WeatherFavouritesScreenViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.getFavoriteCities().count
+        return viewModel.getFavouriteCities().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SegueIdentifiers.favouritesScreenIdentifier, for: indexPath) as? WeatherFavouritesScreenTableViewCell else {
             return UITableViewCell()
         }
-        let city = viewModel.getFavoriteCities()[indexPath.row]        
+        let city = viewModel.getFavouriteCities()[indexPath.row]        
         cell.configure(with: city)
         return cell
     }

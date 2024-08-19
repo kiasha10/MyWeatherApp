@@ -11,15 +11,15 @@ class WeatherFavouritesScreenViewModel {
     
     var favouriteCities: [String] = []
 
-    func addFavoriteCity(_ city: String) {
+    func addFavouriteCity(_ city: String) {
         favouriteCities.append(city)
     }
 
-    func getFavoriteCities() -> [String] {
+    func getFavouriteCities() -> [String] {
         return favouriteCities
     }
 
-    func isCityFavorite(_ city: String) -> Bool {
+    func isCityFavourite(_ city: String) -> Bool {
         return favouriteCities.contains(city)
     }
 }

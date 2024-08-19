@@ -54,9 +54,9 @@ class WeatherHomeScreenViewController: UIViewController {
         let weatherForecast = WeatherForecast(context: context)
         
         weatherForecast.cityLocation = cityName
-        favouritesModel.addFavoriteCity(cityName)
+        favouritesModel.addFavouriteCity(cityName)
         print("Cities Saved to favorites: ")
-        print(favouritesModel.getFavoriteCities())
+        print(favouritesModel.getFavouriteCities())
         
         do {
             try context.save()
@@ -194,10 +194,10 @@ extension WeatherHomeScreenViewController : UITableViewDelegate, UITableViewData
 
         let viewModel = WeatherFavouritesScreenViewModel()
         
-        if viewModel.isCityFavorite(cityName) {
+        if viewModel.isCityFavourite(cityName) {
             showAlert(title: "Already Added", message: "\(cityName) is already in your favourites.")
         } else {
-            viewModel.addFavoriteCity(cityName)
+            viewModel.addFavouriteCity(cityName)
             showAlert(title: "Success", message: "\(cityName) has been added to your favorites.")
         }
     }
@@ -245,6 +245,7 @@ extension WeatherHomeScreenViewController: ViewModelDelegate {
         }
         
         tableView.reloadData()
+        self.loadingSpinner.isHidden = true
     }
     
     func show(error: String) {
